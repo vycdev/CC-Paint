@@ -1,0 +1,36 @@
+
+body, html{
+    background: url("img/background.jpg");
+    background-repeat: repeat;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    background-size: 50px;
+}
+#canvas{
+    border: 5px solid black;
+    margin: 50px;
+    margin-top: 0;
+    width: 1080px;
+    height: 720px;
+    background: white;
+}
+
+.navBar{
+    color: white;
+    margin-top: 50px;
+    margin-left: 50px;
+    padding: 10px;
+    width: 1060px;
+    border: 5px solid black;
+    background: url("img/navBarBackground.png");
+    background-repeat: repeat;
+}
+.downloadIcon, .uploadIcon{
+    float: right;
+    margin-left: 10px;
+}
+i {
+    margin-right: 10px;
+    font-size: 25px;
+}

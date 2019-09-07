@@ -5,15 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CC Paint</title>
+
+    <script src="https://kit.fontawesome.com/eae866a828.js"></script>
+    <script src="https://unpkg.com/vanilla-picker@2"></script>
 </head>
 <body>
+    <div class="navBar">
+        <i class="fas fa-paint-brush"></i>
+        <i class="fas fa-palette" id="colorPicker"></i>
+        <i class="fas fa-fill"></i>
+
+
+        <i class="fas fa-file-download downloadIcon"></i>
+        <i class="fas fa-file-upload uploadIcon"></i>
     
-
-
+    
+    </div>
+    <canvas id="canvas"></canvas>
 </body>
 
 <footer>
     <script src="main.js"></script>
+    <script src="dist/vanilla-picker.js"></script>
     <link rel="stylesheet" href="style.css">
 </footer>
 </html>
