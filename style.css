@@ -20,8 +20,8 @@ body, html{
     color: white;
     margin-top: 50px;
     margin-left: 50px;
-    padding: 10px;
-    width: 1060px;
+    padding: 12px;
+    width: 1056px;
     border: 5px solid black;
     background: url("img/navBarBackground.png");
     background-repeat: repeat;
@@ -32,5 +32,73 @@ body, html{
 }
 i {
     margin-right: 10px;
-    font-size: 25px;
+    font-size: 27px;
 }
+#brushSizeInput{
+    margin-right: 15px;
+    display: none;
+    background: white;
+    height: 27px;
+}
+#numberInput{   
+    width: 40px;
+    height: 14px;
+    margin: 10px;
+    margin-top: 4px;
+    float: right;
+}
+
+/* This breaks the color picker text. The icon color works as intended but the color picker text becomes transparent*/
+/* #colorPicker{
+	background-image: linear-gradient(to right top, #ff0000, #ff5e00, #f98b00, #f0b100, #e5d300, #efc500, #f8b700, #ffa800, #ff572a, #ff0066, #e800b3, #1600ff);
+    -webkit-background-clip: text;
+    background-clip: none;
+	-webkit-text-fill-color: transparent;
+} */
+
+#colorBox{
+    display: inline-flex;
+    height: 20px;
+    width: 20px;
+    border: 2px solid white;
+    background: black;
+    margin-bottom: -2px;
+}
+
+#uploadImage{
+    display: none;
+    background: white;
+    border: 2px solid black;
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: -700px 400px;
+}
+#closeUploadBox{
+    margin-top: 7px;
+    position: relative;
+    float: right;
+    z-index: 99;
+}
+.uploadBoxContent{
+    position: relative;
+    padding: 100px; 
+}
+.uploadBoxContent button{
+    margin-left: 60px;
+}
+.navBar a{
+    color: white;
+    text-decoration: none;
+}
+
+/* disable selection of text */
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }
