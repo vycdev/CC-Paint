@@ -11,20 +11,22 @@
 </head>
 <body>
     <div class="navBar noselect" id="navBar">
-        <i class="fas fa-paint-brush" id="brush"></i>
+        <i class="fas fa-paint-brush" id="brush" title="Brush. Click for more options."></i>
 
-        <div id="brushSizeInput">
-            <input id="rangeInput" type="range" min="1" max="100" value= "18" >
-            <input id="numberInput" type="text" value="18px" readonly>
+        <div id="brushSizeInput" style="display: none">
+            <input id="rangeInput" type="range" min="1" max="100" value= "7" >
+            <input id="numberInput" type="text" value="7px" readonly>
         </div>
 
-        <i class="fas fa-eraser"></i>
-        <i class="fas fa-palette" id="colorPicker"></i>
-        <i class="fas fa-fill" id="bucket"></i>
+        <i class="fas fa-eraser" id="eraser" title="Eraser"></i>
+        <i class="fas fa-palette" id="colorPicker" title="Click to select a color."></i>
+        <i class="fas fa-eye-dropper" id="pickColor" title="Click on the canvas to pick a color."></i>
+        <i class="fas fa-fill" id="bucket" title="Click to use fill bucket."></i>
+        <i class="fas fa-redo-alt" id="canvasReset" title="Click to reset canvas."></i>
         <div id="colorBox"></div>
 
-        <a id="downImg" href="" download="drawing.png"><i class="fas fa-file-download downloadIcon" id="downloadImg"></i></a>
-        <i class="fas fa-file-upload uploadIcon" id="uploadImg"></i>
+        <a id="downImg" href="" download="drawing.png" title="Download as png."><i class="fas fa-file-download downloadIcon" id="downloadImg"></i></a>
+        <i class="fas fa-file-upload uploadIcon" id="uploadImg" title="Click to upload an image."></i>
         
     
     
@@ -41,6 +43,7 @@
         </div>
         
     </div>
+    <canvas id="canvas2" style = "display: none;"></canvas>
 </body>
 
 <footer>

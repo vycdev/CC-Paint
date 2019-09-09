@@ -13,7 +13,6 @@ body, html{
     margin-top: 0;
     width: 1080px;
     height: 720px;
-    background: white;
 }
 
 .navBar{
@@ -34,16 +33,22 @@ i {
     margin-right: 10px;
     font-size: 27px;
 }
+i:hover{
+    text-shadow: 0px 0px 10px rgb(212, 212, 212);
+}
+
+
+
 #brushSizeInput{
-    margin-right: 15px;
+    margin-right: 10px;
     display: none;
-    background: white;
+    background: url('img/navBarBackground.png');
     height: 27px;
 }
 #numberInput{   
     width: 40px;
     height: 14px;
-    margin: 10px;
+    margin: 5px;
     margin-top: 4px;
     float: right;
 }
