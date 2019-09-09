@@ -107,3 +107,16 @@ i:hover{
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
   }
+
+
+#rainbowCheckbox{
+    margin-left: 20px;
+    margin-right: 10px;
+    margin-top: 8px;
+    
+}
+#valueSpeedBox{
+    width: 40px;
+    height: 14px;
+    margin-top: 4px;
+}
