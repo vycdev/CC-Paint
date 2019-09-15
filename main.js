@@ -16,11 +16,11 @@
 let rgbaColor = "rgba(0,0,0,1)"; ///Selected rgba color in string format
 let brushSize = "10"; /// brush size in string format
 var brushType = "brush"; /// brush type (brush.eraser.bucket,colorPick)
-var rgbaArr = [0,0,0,1];    //// current selected rgba color in array format
+var rgbaArr = [0, 0, 0, 1]; //// current selected rgba color in array format
 var isDone = true;
 
-var brushSizeInput = document.getElementById("brushSizeInput");  
-var brushElement = document.getElementById("brush"); 
+var brushSizeInput = document.getElementById("brushSizeInput");
+var brushElement = document.getElementById("brush");
 var rangeInput = document.getElementById("rangeInput");
 var numberInput = document.getElementById("numberInput");
 var uploadImg = document.getElementById("uploadImg");
@@ -43,13 +43,16 @@ var valueSpeedBox = document.getElementById("valueSpeedBox");
 
 
 var mousePressed = false;
-var lastX,lastY;
+var lastX, lastY;
 var ctx = canvas.getContext("2d");
-function drawCanvas(){
-canvas.width = 1080;
-canvas.height = 720;
-ctx.fillStyle = "rgba(255,255,255,1)";
-ctx.fillRect(0,0,1080,720);
+
+function drawCanvas() {
+    canvas.width = 1080;
+    canvas.height = 720;
+    ctx.scale(canvas.width / 1080, canvas.height / 720);
+    ctx.fillStyle = "rgba(255,255,255,1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 }
 drawCanvas();
 init();
@@ -57,7 +60,7 @@ init();
 
 
 ///Reset canvas button
-reset.onclick = ()=>{
+reset.onclick = () => {
     drawCanvas();
 }
 
@@ -65,14 +68,14 @@ reset.onclick = ()=>{
 
 
 // Download and Upload
-function convertImageToCanvas(image){
+function convertImageToCanvas(image) {
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     var reader = new FileReader();
-    reader.onload = function(event){
+    reader.onload = function(event) {
         var img = new Image();
-        img.onload = function(){
-            ctx.drawImage(img,0,0,1080,720);
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
         img.src = event.target.result;
     }
@@ -80,53 +83,53 @@ function convertImageToCanvas(image){
     uploadBox.style.display = "none";
 }
 
-function convertCanvasToImage(canvas){
+function convertCanvasToImage(canvas) {
     var image = new Image();
     image.src = canvas.toDataURL("image/png");
     return image;
 }
 
-uploadImg.onclick = ()=>{
-    if(uploadBox.style.display == "none"){
+uploadImg.onclick = () => {
+    if (uploadBox.style.display == "none") {
         uploadBox.style.display = "block";
 
-        closeUploadButton.onclick = ()=>{
+        closeUploadButton.onclick = () => {
             uploadBox.style.display = "none";
         }
 
-    }else{
+    } else {
         uploadBox.style.display = "none"
     }
 }
 
 
-submitButton.onclick = ()=>{
-    if(fileInput.files[0]){
-    convertImageToCanvas(fileInput.files);
-    }else{
+submitButton.onclick = () => {
+    if (fileInput.files[0]) {
+        convertImageToCanvas(fileInput.files);
+    } else {
         alert("Please select an image");
     }
 }
 
-function downloadImage(){
+function downloadImage() {
     var canvas = document.getElementById("canvas");
     var downImg = document.getElementById("downImg");
     downImg.href = convertCanvasToImage(canvas).src;
 }
 
-downloadButton.onclick = ()=>{
+downloadButton.onclick = () => {
     downloadImage();
 }
 
 
 //Color picker
-var picker = new Picker({    
-        parent: document.querySelector('#colorPicker'),
-        popup: 'bottom',
-        color: '#000',
-        editor: true,
-        layout: 'default',
-        editorFormat: 'hex'
+var picker = new Picker({
+    parent: document.querySelector('#colorPicker'),
+    popup: 'bottom',
+    color: '#000',
+    editor: true,
+    layout: 'default',
+    editorFormat: 'hex'
 
 });
 
@@ -141,20 +144,18 @@ picker.onChange = (color) => {
 
 /// Pick a color from canvas
 
-pickColor.onclick = ()=>{
+pickColor.onclick = () => {
     canvas.style.cursor = "url('cursor/pick.cur'),auto";
     brushType = "colorPick";
+    rainbow.checked = false;
 }
 
 
 
 //brush size
-function selectBrushBrush(){
+function selectBrushBrush() {
     canvas.style.cursor = "url('cursor/crosshair.cur'),auto";
     brushType = "brush";
-    if(brushSizeInput.style.display == "none"){
-        brushSizeInput.style.display = "inline-flex";
-    }
     rainbow.checked = false;
 }
 
@@ -164,19 +165,20 @@ brushElement.onclick = () => {
     selectBrushBrush();
 }
 
-rangeInput.oninput = ()=>{
+rangeInput.oninput = () => {
     numberInput.value = rangeInput.value + "px";
     brushSize = rangeInput.value;
 }
 
-eraser.onclick = ()=>{
+eraser.onclick = () => {
     canvas.style.cursor = "url('cursor/eraser.cur'),auto";
     brushType = "eraser";
+    rainbow.checked = false;
 }
 
 //paint bucket
 
-bucket.onclick = ()=>{
+bucket.onclick = () => {
     canvas.style.cursor = "url('cursor/bucket.cur'),auto";
     brushType = "bucket";
 }
@@ -189,114 +191,114 @@ bucket.onclick = ()=>{
 ///Actual Drawing
 
 
-function init(){
+function init() {
     var bucketReady;
-        canvas.onmousedown = (e)=>{
-            mousePressed = true;
-            if(isDone){
-                bucketReady = true;
-            }
-            Draw(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, false, brushType,bucketReady);
-            
-        };
-        canvas.onmousemove = (e)=>{
-            if(mousePressed){
-                bucketReady = false;
-                Draw(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, true, brushType,bucketReady);
-            }
-            if(brushType == "colorPick"){
-                showColorOnPickIcon(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop,true);
-            }else{
-                showColorOnPickIcon(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop,false);
-            }
-        };
-        canvas.onmouseup = ()=>{
-            mousePressed = false;
-            if(isDone){
-                bucketReady = true;
-            }
-        };
-        canvas.onmouseout = ()=>{
+    canvas.onmousedown = (e) => {
+        mousePressed = true;
+        if (isDone) {
+            bucketReady = true;
+        }
+        Draw(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, false, brushType, bucketReady);
+
+    };
+    canvas.onmousemove = (e) => {
+        if (mousePressed) {
             bucketReady = false;
-            mousePressed = false;
-        };
+            Draw(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, true, brushType, bucketReady);
+        }
+        if (brushType == "colorPick") {
+            showColorOnPickIcon(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, true);
+        } else {
+            showColorOnPickIcon(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, false);
+        }
+    };
+    canvas.onmouseup = () => {
+        mousePressed = false;
+        if (isDone) {
+            bucketReady = true;
+        }
+    };
+    canvas.onmouseout = () => {
+        bucketReady = false;
+        mousePressed = false;
+    };
 }
 
 
-rainbow.onclick = ()=>{
-    if(rainbow.checked){
-        rgbaArr = [256,1,0,1];
+rainbow.onclick = () => {
+    if (rainbow.checked) {
+        rgbaArr = [256, 1, 0, 1];
         rgbaColor = "rgba(" + rgbaArr.toString() + ")";
         document.getElementById("colorBox").style.background = rgbaColor;
         valueSpeedBox.style.display = "inline-flex";
-    }else{
+    } else {
         valueSpeedBox.style.display = "none";
     }
 }
 
-valueSpeedBox.onchange = ()=>{
-    if(valueSpeedBox.value > 125){
+valueSpeedBox.onchange = () => {
+    if (valueSpeedBox.value > 125) {
         valueSpeedBox.value = 125;
     }
-    if(valueSpeedBox.value < 1){
+    if (valueSpeedBox.value < 1) {
         valueSpeedBox.value = 1;
     }
 }
 
 
 
-function rainbowColor(){
-    
-    var r,g,b;
+function rainbowColor() {
+
+    var r, g, b;
     var valueSpeed = parseInt(valueSpeedBox.value);
     r = rgbaArr[0];
     g = rgbaArr[1];
     b = rgbaArr[2];
 
-    if(r == 256 && g > 0 && g < 256 && b == 0){
+    if (r == 256 && g > 0 && g < 256 && b == 0) {
         g += valueSpeed;
-        
-        if(g > 255){
+
+        if (g > 255) {
             g = 256;
             r -= valueSpeed;
         }
     }
-    if(r < 256 && r > 0 && g == 256 && b == 0){
+    if (r < 256 && r > 0 && g == 256 && b == 0) {
         r -= valueSpeed;
-        
-        if(r < 1){
+
+        if (r < 1) {
             r = 0;
             b += valueSpeed;
         }
     }
-    if(r == 0 && g == 256 && b > 0 && b < 256){
-        b+= valueSpeed;
-        
-        if(b > 255){
+    if (r == 0 && g == 256 && b > 0 && b < 256) {
+        b += valueSpeed;
+
+        if (b > 255) {
             b = 256;
             g -= valueSpeed;
         }
     }
-    if(r == 0 && g > 0 && g < 256 && b == 256){
+    if (r == 0 && g > 0 && g < 256 && b == 256) {
         g -= valueSpeed;
-        
-        if(g < 1){
+
+        if (g < 1) {
             g = 0;
             r += valueSpeed;
         }
     }
-    if(r > 0 && r < 256 && g == 0 && b == 256){
-        r+=valueSpeed;
-        
-        if(r > 255){
+    if (r > 0 && r < 256 && g == 0 && b == 256) {
+        r += valueSpeed;
+
+        if (r > 255) {
             r = 256;
             b -= valueSpeed;
         }
     }
-    if(r == 256 && g == 0 && b < 256 && b > 0){
-        b-=valueSpeed;
-        
-        if(b < 1){
+    if (r == 256 && g == 0 && b < 256 && b > 0) {
+        b -= valueSpeed;
+
+        if (b < 1) {
             b = 0;
             g += valueSpeed;
         }
@@ -310,51 +312,51 @@ function rainbowColor(){
     document.getElementById("colorBox").style.background = rgbaColor;
 }
 
-function Draw(x,y,isDown,brushType,bucketReady){
-    if(isDown){
-        if(brushType == "brush"){
+function Draw(x, y, isDown, brushType, bucketReady) {
+    if (isDown) {
+        if (brushType == "brush") {
             ctx.beginPath();
-            if(rainbow.checked){
-                
+            if (rainbow.checked) {
 
-                ctx.strokeStyle =  rgbaColor;
+
+                ctx.strokeStyle = rgbaColor;
                 rainbowColor();
-            }else{
+            } else {
                 ctx.strokeStyle = rgbaColor;
             }
             ctx.lineWidth = brushSize;
             ctx.lineJoin = "round";
-            ctx.moveTo(lastX,lastY);
-            ctx.lineTo(x,y);
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
             ctx.closePath();
             ctx.stroke();
         }
-        if(brushType == "eraser"){
+        if (brushType == "eraser") {
             ctx.beginPath();
             ctx.strokeStyle = "white";
             ctx.lineWidth = brushSize;
             ctx.lineJoin = "round";
-            ctx.moveTo(lastX,lastY);
-            ctx.lineTo(x,y);
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
             ctx.closePath();
             ctx.stroke();
-            
+
         }
 
     }
-    if(brushType == "colorPick"){
-        var imageData = ctx.getImageData(x,y,1,1);
+    if (brushType == "colorPick") {
+        var imageData = ctx.getImageData(x, y, 1, 1);
         rgbaArr = imageData.data;
-        imageData = "rgba("+ imageData.data.toString() + ")";
-        if(imageData == "rgba(0,0,0,0)"){
+        imageData = "rgba(" + imageData.data.toString() + ")";
+        if (imageData == "rgba(0,0,0,0)") {
             imageData = "rgba(255,255,255,1)";
         }
         rgbaColor = imageData;
         document.getElementById("colorBox").style.background = rgbaColor;
         selectBrushBrush();
     }
-    if(brushType == "bucket" && bucketReady){
-        bucketFill(x,y);
+    if (brushType == "bucket" && bucketReady) {
+        bucketFill(x, y);
     }
 
     lastX = x;
@@ -363,110 +365,137 @@ function Draw(x,y,isDown,brushType,bucketReady){
 
 
 
-function bucketFill(startX,startY){
-        isDone = false;
-        var colorLayer = ctx.getImageData(0,0,1080,720);
-        const pixelStack = [[startX,startY]];
-        var startR,startG,startB;
-        var startPos;
-        startPos = (startX + 1080*startY)*4;
-        startR = colorLayer.data[startPos];
-        startG = colorLayer.data[startPos+1];
-        startB = colorLayer.data[startPos+2];
+function bucketFill(startX, startY) {
+    isDone = false;
+    var colorLayer = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixelStack = [
+        [startX, startY]
+    ];
+    var startR, startG, startB;
+    var startPos;
+    startPos = (startX + canvas.width * startY) * 4;
+    startR = colorLayer.data[startPos];
+    startG = colorLayer.data[startPos + 1];
+    startB = colorLayer.data[startPos + 2];
 
-        if(!matchSelectedColor(startPos)){
-            while(pixelStack.length != 0 ){
-                var newPos, x,y, pixelPos, reachLeft, reachRight;
-                newPos = pixelStack.pop();
+    if (!matchSelectedColor(startPos)) {
+        while (pixelStack.length != 0) {
+            var newPos, x, y, pixelPos, reachLeft, reachRight;
+            newPos = pixelStack.pop();
 
-                x = newPos[0];
-                y = newPos[1];
+            x = newPos[0];
+            y = newPos[1];
 
-                pixelPos = ((y*1080 + x)*4);
+            pixelPos = ((y * canvas.width + x) * 4);
 
-                while(y-- >= 0 && matchStartColor(pixelPos)){
-                    pixelPos -= 1080*4;
-                }
-                pixelPos += 1080*4;
-                ++y;
-                reachLeft = false;
-                reachRight = false;
+            while (y-- >= 0 && matchStartColor(pixelPos)) {
+                pixelPos -= canvas.width * 4;
+            }
+            pixelPos += canvas.width * 4;
+            ++y;
+            reachLeft = false;
+            reachRight = false;
 
-                while(y++ < 720 && matchStartColor(pixelPos)){
-                    colorPixel(pixelPos);
-                    if(x > 0){
-                        if(matchStartColor(pixelPos - 4)){
-                            if(!reachLeft){
-                                pixelStack.push([x-1,y]);
-                                reachLeft = true;
-                            }
-                        }else if(reachLeft){
-                            reachLeft = false;
+            while (y++ < canvas.height && matchStartColor(pixelPos)) {
+                colorPixel(pixelPos);
+                if (x > 0) {
+                    if (matchStartColor(pixelPos - 4)) {
+                        if (!reachLeft) {
+                            pixelStack.push([x - 1, y]);
+                            reachLeft = true;
                         }
+                    } else if (reachLeft) {
+                        reachLeft = false;
                     }
-                    if(x < 1080){
-                        if(matchStartColor(pixelPos+4)){
-                            if(!reachRight){
-                                pixelStack.push([x+1, y]);
-                                reachRight = true;
-                            }
-                        }else if(reachRight){
-                            reachRight = false;
-                        }
-                    }
-                    pixelPos += 1080 * 4;
                 }
+                if (x < canvas.width) {
+                    if (matchStartColor(pixelPos + 4)) {
+                        if (!reachRight) {
+                            pixelStack.push([x + 1, y]);
+                            reachRight = true;
+                        }
+                    } else if (reachRight) {
+                        reachRight = false;
+                    }
+                }
+                pixelPos += canvas.width * 4;
             }
         }
-
-        ctx.putImageData(colorLayer,0,0);
-
-        function matchSelectedColor(pixelPos){
-            var r = colorLayer.data[pixelPos];
-            var g = colorLayer.data[pixelPos+1];
-            var b = colorLayer.data[pixelPos+2];
-
-            
-            if(r== rgbaArr[0] && g==rgbaArr[1] && b == rgbaArr[2]){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        function matchStartColor(pixelPos){
-            var r = colorLayer.data[pixelPos];
-            var g = colorLayer.data[pixelPos+1];
-            var b = colorLayer.data[pixelPos+2];
-
-            if(r== startR && g==startG && b == startB){
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-        function colorPixel(pixelPos){
-            colorLayer.data[pixelPos] = rgbaArr[0];
-            colorLayer.data[pixelPos+1] = rgbaArr[1];
-            colorLayer.data[pixelPos+2] = rgbaArr[2];
-            colorLayer.data[pixelPos+3] = 255;
-        }
-
-        isDone = true;
     }
 
+    ctx.putImageData(colorLayer, 0, 0);
 
-    function showColorOnPickIcon(x,y,showColor){
-        if(showColor){
-            var imageData = ctx.getImageData(x,y,1,1);
-            imageData = "rgba("+ imageData.data.toString() + ")";
-            if(imageData == "rgba(0,0,0,0)"){
-                imageData = "rgba(255,255,255,1)";
-            }
-    
-            pickColor.style.color = imageData;
-        }else{
-            pickColor.style.color = "white";
+    function matchSelectedColor(pixelPos) {
+        var r = colorLayer.data[pixelPos];
+        var g = colorLayer.data[pixelPos + 1];
+        var b = colorLayer.data[pixelPos + 2];
+
+
+        if (r == rgbaArr[0] && g == rgbaArr[1] && b == rgbaArr[2]) {
+            return true;
+        } else {
+            return false;
         }
     }
+
+    function matchStartColor(pixelPos) {
+        var r = colorLayer.data[pixelPos];
+        var g = colorLayer.data[pixelPos + 1];
+        var b = colorLayer.data[pixelPos + 2];
+
+        if (r == startR && g == startG && b == startB) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function colorPixel(pixelPos) {
+        colorLayer.data[pixelPos] = rgbaArr[0];
+        colorLayer.data[pixelPos + 1] = rgbaArr[1];
+        colorLayer.data[pixelPos + 2] = rgbaArr[2];
+        colorLayer.data[pixelPos + 3] = 255;
+
+        if (!matchStartColor(pixelPos - 4)) {
+            colorLayer.data[pixelPos - 4] = rgbaArr[0];
+            colorLayer.data[pixelPos + 1 - 4] = rgbaArr[1];
+            colorLayer.data[pixelPos + 2 - 4] = rgbaArr[2];
+            colorLayer.data[pixelPos + 3 - 4] = 255;
+        }
+        if (!matchStartColor(pixelPos + 4)) {
+            colorLayer.data[pixelPos + 4] = rgbaArr[0];
+            colorLayer.data[pixelPos + 1 + 4] = rgbaArr[1];
+            colorLayer.data[pixelPos + 2 + 4] = rgbaArr[2];
+            colorLayer.data[pixelPos + 3 + 4] = 255;
+        }
+        if (!matchStartColor(pixelPos + canvas.width * 4)) {
+            colorLayer.data[pixelPos + canvas.width * 4] = rgbaArr[0];
+            colorLayer.data[pixelPos + 1 + canvas.width * 4] = rgbaArr[1];
+            colorLayer.data[pixelPos + 2 + canvas.width * 4] = rgbaArr[2];
+            colorLayer.data[pixelPos + 3 + canvas.width * 4] = 255;
+        }
+        if (!matchStartColor(pixelPos - canvas.width * 4)) {
+            colorLayer.data[pixelPos - canvas.width * 4] = rgbaArr[0];
+            colorLayer.data[pixelPos + 1 - canvas.width * 4] = rgbaArr[1];
+            colorLayer.data[pixelPos + 2 - canvas.width * 4] = rgbaArr[2];
+            colorLayer.data[pixelPos + 3 - canvas.width * 4] = 255;
+        }
+    }
+
+    isDone = true;
+}
+
+
+function showColorOnPickIcon(x, y, showColor) {
+    if (showColor) {
+        var imageData = ctx.getImageData(x, y, 1, 1);
+        imageData = "rgba(" + imageData.data.toString() + ")";
+        if (imageData == "rgba(0,0,0,0)") {
+            imageData = "rgba(255,255,255,1)";
+        }
+
+        pickColor.style.color = imageData;
+    } else {
+        pickColor.style.color = "white";
+    }
+}

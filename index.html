@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +9,15 @@
 
     <script src="https://kit.fontawesome.com/eae866a828.js"></script>
     <script src="https://unpkg.com/vanilla-picker@2"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="navBar noselect" id="navBar">
         <i class="fas fa-paint-brush" id="brush" title="Brush. Click for more options."></i>
 
-        <div id="brushSizeInput" style="display: none">
-            <input id="rangeInput" type="range" min="1" max="100" value= "10" >
-            <input id= "numberInput" type="text" value="10px" readonly>
-            <input type="checkbox" id="rainbowCheckbox" value = "false">
-            <input type="numberInput" id = "valueSpeedBox" style="display: none" value="8">
-        </div>
+
 
         <i class="fas fa-eraser" id="eraser" title="Eraser"></i>
         <i class="fas fa-palette" id="colorPicker" title="Click to select a color."></i>
@@ -27,13 +26,18 @@
         <i class="fas fa-redo-alt" id="canvasReset" title="Click to reset canvas."></i>
         <div id="colorBox"></div>
 
-        <a id="downImg" href="" download="drawing.png" title="Download as png."><i class="fas fa-file-download downloadIcon" id="downloadImg"></i></a>
+        <a id="downImg" href="" download="drawing.png" title="Download as png."><i
+                class="fas fa-file-download downloadIcon" id="downloadImg"></i></a>
         <i class="fas fa-file-upload uploadIcon" id="uploadImg" title="Click to upload an image."></i>
-        
-    
-    
+
+
+
     </div>
     <canvas id="canvas" style="cursor: url('cursor/crosshair.cur'),auto;"></canvas>
+
+
+
+
     <div id="uploadImage" style="display: none;">
         <div id="closeUploadBox"><i class="far fa-times-circle"></i></div>
         <div class="uploadBoxContent">
@@ -43,9 +47,27 @@
             <p>Warning: the current canvas will be deleted.</p>
             <button type="submit" id="submitImage">Submit</button>
         </div>
-        
+
     </div>
-    <canvas id="canvas2" style = "display: none;"></canvas>
+
+    <div class="controlPannel">
+        <div class="controlPannelTitle noselect">
+            Options
+        </div>
+        <div class="semaiintamplasamairamaisifaraideidenume noselect">
+            <div id="brushSizeInput">
+                <p>Choose brush size</p>
+                <input id="rangeInput" type="range" min="1" max="100" value="10">
+                <input id="numberInput" type="text" value="10px" readonly>
+            </div>
+            <div class="rainbowOptions">
+                <p>Rainbow brush</p>
+                <input type="checkbox" id="rainbowCheckbox" value="false">
+                <input type="numberInput" id="valueSpeedBox" style="display: none" value="8">
+            </div>
+        </div>
+    </div>
+
 </body>
 
 <footer>
@@ -53,4 +75,5 @@
     <script src="dist/vanilla-picker.js"></script>
     <link rel="stylesheet" href="style.css">
 </footer>
+
 </html>
