@@ -13,3 +13,9 @@ A simple paint clone app done in JS for the Code Comunity discord server (a roma
 
 ### A simple preview
 ![My project](https://i.imgur.com/t89EThf.png)
+
+#### Sample text
+> So this is it.
+ All you have to do to use is to clone it or download it and open the **index.html** file.
+ As my first medium/complicated (kind of) project I think I did pretty good (with the logic), but I think my code can be inproved so much more.
+ I will continue to participate in the coding challenges from my comunity and have fun and learn new things.
