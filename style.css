@@ -129,6 +129,7 @@ i:hover {
     height: 27px;
     margin-top: 70px;
     position: relative;
+    z-index: 99;
 }
 
 #brushSizeInput p {
