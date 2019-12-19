@@ -17,6 +17,8 @@ A simple paint clone app done in JS for the Code Comunity discord server (a roma
 
 ![My project](https://i.imgur.com/t89EThf.png)
 
+https://vyctor661.github.io/CC-Paint/
+
 #### Sample text
 
 > So this is it.
