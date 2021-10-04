@@ -29,3 +29,8 @@ https://vyctor661.github.io/CC-Paint/
 ### Developing:
 
 Install the "prettier" visual studio code extension. This will allow vsc to read the ".prettierrc" file and beautify your code on save!
+
+
+### Hacktoberfest
+
+This repository is now open for hacktoberfest, feel free to submit pull requests
